@@ -1,86 +1,83 @@
-conky.config = {
--- UBUNTU-CONKY
--- A comprehensive conky script, configured for use on
--- Ubuntu / Debian Gnome, without the need for any external scripts.
+# UBUNTU-CONKY
+# A comprehensive conky script, configured for use on
+# Ubuntu / Debian Gnome, without the need for any external scripts.
+#
+# Based on conky-jc and the default .conkyrc.
+# INCLUDES:
+# - tail of /var/log/messages
+# - netstat shows number of connections from your computer and application/PID making it. Kill spyware!
+#
+# -- Pengo
+# -- modified by mrl
+ 
+# Create own window instead of using desktop (required in nautilus)
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+ 
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+ 
+# fiddle with window
+use_spacer right
 
--- Based on conky-jc and the default .conkyrc.
--- INCLUDES:
--- - tail of /var/log/messages
--- - netstat shows number of connections from your computer and application/PID making it. Kill spyware!
-
--- -- Pengo
--- -- modified by mrl
-
--- Create own window instead of using desktop (required in nautilus)
-	own_window = true,
-	own_window_type = 'normal',
-	own_window_transparent = true,
-	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-
--- Use double buffering (reduces flicker, may not work for everyone)
-	double_buffer = true,
-
--- fiddle with window
-	use_spacer = 'right',
-
--- Use Xft?
-	use_xft = true,
-	font = 'DejaVu Sans:size=9',
-	xftalpha = 0.8,
-	text_buffer_size = 2048,
-
--- Update interval in seconds
-	update_interval = 2.0,
-
--- Minimum size of text area
--- minimum_size 250 5
-
--- Draw shades?
-	draw_shades = true,
-	lua_load = '~/.config/draw_bg.lua',
-	lua_draw_hook_pre = 'draw_bg',
-
--- Text stuff
-	draw_outline = false,-- amplifies text if yes
-	draw_borders = false,
-	uppercase = false,-- set to yes if you want all text to be in uppercase
-
--- Stippled borders?
-	stippled_borders = 3,
-
--- border margins
-	border_margin = '9',
-
--- border width
-	border_width = 5,
-
--- Default colors and also border colors, grey90 == #e5e5e5
-	default_color = 'grey',
-
-	own_window_colour = 'black',
-	own_window_transparent = true,
-
--- Text alignment, other possible values are commented
--- alignment top_left
-	alignment = 'top_right',
--- alignment bottom_left
--- alignment bottom_right
-
--- Gap between borders of screen and text
-	gap_x = 20,
-	gap_y = 20,
-
--- stuff after 'TEXT' will be formatted on screen
-
-};
-
-conky.text = [[
+# Use Xft?
+use_xft yes
+xftfont DejaVu Sans:size=9
+xftalpha 0.8
+text_buffer_size 2048
+ 
+# Update interval in seconds
+update_interval 2.0
+ 
+# Minimum size of text area
+# minimum_size 250 5
+ 
+# Draw shades?
+draw_shades yes
+lua_load ~/.config/draw_bg.lua
+lua_draw_hook_pre draw_bg
+ 
+# Text stuff
+draw_outline no # amplifies text if yes
+draw_borders no
+uppercase no # set to yes if you want all text to be in uppercase
+ 
+# Stippled borders?
+stippled_borders 3
+ 
+# border margins
+border_margin 9
+ 
+# border width
+border_width 5
+ 
+# Default colors and also border colors, grey90 == #e5e5e5
+default_color grey
+ 
+own_window_colour black
+own_window_transparent yes
+ 
+# Text alignment, other possible values are commented
+# alignment top_left
+alignment top_right
+# alignment bottom_left
+# alignment bottom_right
+ 
+# Gap between borders of screen and text
+gap_x 20
+gap_y 20
+ 
+# stuff after 'TEXT' will be formatted on screen
+ 
+TEXT
 ${color orange}${hr 2}$color
 ${color white}${font DejaVu Sans:size=12}${alignc}${exec cat /etc/gentoo-release | cut -d" " -f1-2} ${exec uname -m} - $kernel${font}$color
 ${color orange}${hr 2}$color
 
 ${color orange}CPU ${hr 2}$color
-${exec cat /proc/cpuinfo | grep 'model name' | head -n 1 | cut -d" " -f3- | sed 's/  */ /g'}
+${exec cat /proc/cpuinfo | grep '^model name' | head -n 1 | cut -d" " -f3-}
 
 ${color white}Core 1 Temp: ${color #fff600}${hwmon 0 temp 2}°C $alignr${color white}Core 2 Temp: ${color #fff600}${hwmon 0 temp 3}°C
 ${color orange}${cpubar cpu1 5,85} :${cpu cpu1}%  $alignr${cpubar cpu2 5,85} :${cpu cpu2}%
@@ -96,13 +93,19 @@ ${top name 2}	${alignc}${top pid 2}		${top cpu 2}		${top mem 2}
 ${top name 3}	${alignc}${top pid 3}		${top cpu 3}		${top mem 3}
 ${top name 4}	${alignc}${top pid 4}		${top cpu 4}		${top mem 4}
 
-${color orange}${exec glxinfo | grep 'OpenGL renderer string:' | sed -e 's/.*: //' | cut -c -20} ${hr 2}$color
-${color white}GPU Temp: ${color #fff600}${exec nvidia-settings -q all | grep GPUCoreTemp | grep gpu | sed -e 's/.*: //' | cut -d'.' -f1}°C${color}
+${color orange}${exec glxinfo | grep 'OpenGL renderer string:' | sed -e 's/.*: //' | cut -c -15} ${hr 2}$color
+# GPU @ ${exec nvidia-settings -q all | grep 
+'Attribute.*GPUCurrentClockFreqs' | tr -s '.,:' ' ' | cut -d' ' -f7} MHz ${alignr}RAM @ ${exec nvidia-settings -q all | grep 'Attribute.*GPUCurrentClockFreqs' | tr -s '.,:' ' ' | cut -d' ' -f8} MHz / ${exec nvidia-settings -q all | grep 'Attribute.*VideoRam' | tr -s '.,:' ' ' | cut -d' ' -f7 | cut -c -4} MB
+${color white}GPU Temp: ${color #fff600}${nvidia temp}°C${color}
+GPU frequency: ${nvidia gpufreq} MHz
+GPU memory frequency: ${nvidia memfreq} MHz
+# ${exec nvidia-settings -q gpucoretemp  |grep '):' | awk '{print $4}' | 
+cut -c1-2}°C
+# OpenGL: ${exec glxinfo |grep 'OpenGL renderer string:' | sed -e 's/.*: 
+//' | cut -c -29}
 
 ${color orange}HDD ${hr 2}$color
 / ${alignc}${fs_used /} / ${fs_size /} ${alignr} ${fs_used_perc /}%$color
-${color orange}${fs_bar /}$color
-/rwstorage ${alignc}${fs_used /mnt/rwstorage} / ${fs_size /mnt/rwstorage} ${alignr} ${fs_used_perc /mnt/rwstorage}%$color
 ${color orange}${fs_bar /}$color
 /home ${alignc}${fs_used /home} / ${fs_size /home} ${alignr} ${fs_used_perc /home}%$color
 ${color orange}${fs_bar /home}$color
@@ -115,4 +118,3 @@ ${color orange}${downspeedgraph eth0 25,140 000000 ff0000} ${alignr}${upspeedgra
 25,140 000000 00ff00}$color
 Total: ${totaldown eth0} ${alignr}Total: ${totalup eth0}
 ${execi 30 netstat -ept | grep ESTAB | awk '{print $9}' | cut -d: -f1 | sort | uniq -c | sort -nr}
-]];
