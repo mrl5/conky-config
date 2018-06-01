@@ -1,3 +1,5 @@
+# [PREVIEW]
+
 # FAQ
 
 ## "How can I use it"?
@@ -7,7 +9,7 @@
 - copy *draw_bg.lua* into your '~/.config/' dir (eg. '/home/mrl5/.config/')
 - run 'conky' in your console
 
-## "I don't want to run conky everytime I boot in my console"
+## "I don't want to run conky in my console everytime I boot"
 - I recommend adding conky to the autostart of your graphical environment (eg. LXDE, KDE, GNOME, XFCE)
 - For more info search for "conky autostart **<your graphical env>**"
 
@@ -21,3 +23,4 @@
 [USE_FLAG]: https://wiki.gentoo.org/wiki/USE_flag
 [Gentoo-like]: https://wiki.gentoo.org/wiki/Distributions_based_on_Gentoo
 [syntax changed]: https://github.com/brndnmtthws/conky/wiki/Convert-to-new-1.10-syntax
+[PREVIEW]: https://raw.githubusercontent.com/mrl5/conky-config/master/mrl5-conky.png
