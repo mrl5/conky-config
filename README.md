@@ -1,4 +1,4 @@
-# [PREVIEW]
+![PREVIEW](mrl5-conky.png)
 
 # FAQ
 
@@ -23,5 +23,4 @@
 [USE_FLAG]: https://wiki.gentoo.org/wiki/USE_flag
 [Gentoo-like]: https://wiki.gentoo.org/wiki/Distributions_based_on_Gentoo
 [syntax changed]: https://github.com/brndnmtthws/conky/wiki/Convert-to-new-1.10-syntax
-[PREVIEW]: https://raw.githubusercontent.com/mrl5/conky-config/master/mrl5-conky.png
 [pre-1.10]: https://github.com/mrl5/conky-config/tree/pre-1.10
